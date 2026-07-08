@@ -66,7 +66,7 @@ func main() {
 	r.Use(cors.New(corsConfig))
 
 	// Setup all routes
-	router.Setup(r, h)
+	router.SetupAllRoutes(r, h)
 
 	slog.Info("server starting", "port", cfg.Port, "env", os.Getenv("ENV"))
 

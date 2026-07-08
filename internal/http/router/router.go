@@ -1,15 +1,17 @@
 package router
 
 import (
+	"github.com/alhaos-qr-menu/api/internal/http/handlers"
 	"github.com/gin-gonic/gin"
-	"github.com/alhaos-qr-menu/api/internal/handlers"
 )
 
-func Setup(router *gin.Engine, h *handlers.Handler) {
-	api := router.Group("/api")
+func SetupAllRoutes(router *gin.Engine, h *handlers.Handler) {
 
-	// Public routes
-	api.GET("/health", h.Health.Health)
+	api := router.Group("/api")
+	{
+		// Public routes
+		api.GET("/health", h.Health.Health)
+	}
 
 	// Protected routes later
 	// api.Use(auth.RequireAuth(...))
