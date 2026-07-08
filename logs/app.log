@@ -9,3 +9,5 @@
 {"time":"2026-07-08T14:30:09.2695731+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}
 {"time":"2026-07-08T14:30:09.2788663+05:00","level":"ERROR","msg":"server failed to start","error":"listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
 {"time":"2026-07-08T14:31:24.1488715+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}
+{"time":"2026-07-08T15:30:06.8449815+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}
+{"time":"2026-07-08T15:31:53.0652591+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}
