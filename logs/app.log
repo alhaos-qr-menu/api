@@ -4,3 +4,8 @@
 {"time":"2026-07-08T11:02:10.2574959+05:00","level":"ERROR","msg":"failed to connect to database","error":"ping database: failed to connect to `user=qr_menu_owner database=myapp`: 82.202.140.217:5432 (alhaos.ru): server error: FATAL: database \"myapp\" does not exist (SQLSTATE 3D000)"}
 {"time":"2026-07-08T11:02:43.0022478+05:00","level":"INFO","msg":"server starting","port":"8080"}
 {"time":"2026-07-08T12:14:49.1792505+05:00","level":"INFO","msg":"server starting","port":"8080"}
+{"time":"2026-07-08T14:29:46.8927672+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}
+{"time":"2026-07-08T14:29:46.8943387+05:00","level":"ERROR","msg":"server failed to start","error":"listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
+{"time":"2026-07-08T14:30:09.2695731+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}
+{"time":"2026-07-08T14:30:09.2788663+05:00","level":"ERROR","msg":"server failed to start","error":"listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
+{"time":"2026-07-08T14:31:24.1488715+05:00","level":"INFO","msg":"server starting","port":"8080","env":""}

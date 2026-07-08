@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log/slog"
-	"net/http"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -11,21 +10,23 @@ import (
 
 	"github.com/alhaos-qr-menu/api/internal/config"
 	"github.com/alhaos-qr-menu/api/internal/db"
+	"github.com/alhaos-qr-menu/api/internal/handlers"
 	"github.com/alhaos-qr-menu/api/internal/logging"
+	"github.com/alhaos-qr-menu/api/internal/router"
 )
 
 func main() {
-	// Bootstrap logger: stdout only, used until config is loaded.
+	// Bootstrap logger (до загрузки конфига)
 	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, nil)))
 
-	// Init config
+	// Load config
 	cfg, err := config.Load()
 	if err != nil {
 		slog.Error("failed to load config", "error", err)
 		os.Exit(1)
 	}
 
-	// Init logger
+	// Init structured logger with rotation
 	logger := logging.New(logging.Config{
 		Path:       cfg.LogPath,
 		MaxSizeMB:  cfg.LogMaxSizeMB,
@@ -35,10 +36,10 @@ func main() {
 	})
 	slog.SetDefault(logger)
 
-	// Get context
+	// Background context
 	ctx := context.Background()
 
-	// Init database pool
+	// Init database
 	pool, err := db.New(ctx, cfg.DatabaseURL)
 	if err != nil {
 		slog.Error("failed to connect to database", "error", err)
@@ -46,32 +47,30 @@ func main() {
 	}
 	defer pool.Close()
 
-	// Init router
-	gin.SetMode(gin.ReleaseMode)
-	router := gin.New()
-	router.Use(gin.Recovery())
+	// Init handlers
+	h := handlers.New(pool)
 
-	// CORS config init
+	// Init Gin router
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.New()
+	r.Use(gin.Recovery())
+
+	// CORS
 	corsConfig := cors.Config{
 		AllowOrigins:     []string{cfg.AllowedOrigin},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
 	}
-	router.Use(cors.New(corsConfig))
+	r.Use(cors.New(corsConfig))
 
-	router.GET("/api/health", func(c *gin.Context) {
-		if err := pool.Ping(c.Request.Context()); err != nil {
-			slog.Error("health check: database unreachable", "error", err)
-			c.JSON(http.StatusServiceUnavailable, gin.H{"status": "error", "database": "unreachable"})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "database": "reachable"})
-	})
+	// Setup all routes
+	router.Setup(r, h)
 
-	slog.Info("server starting", "port", cfg.Port)
-	if err := router.Run(":" + cfg.Port); err != nil {
-		slog.Error("server failed", "error", err)
+	slog.Info("server starting", "port", cfg.Port, "env", os.Getenv("ENV"))
+
+	if err := r.Run(":" + cfg.Port); err != nil {
+		slog.Error("server failed to start", "error", err)
 		os.Exit(1)
 	}
 }
