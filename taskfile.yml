@@ -1,0 +1,32 @@
+version: "3"
+
+vars:
+  BINARY_NAME: api
+  BUILD_DIR: ./build
+
+tasks:
+  build:
+    desc: Build the API binary into ./build
+    cmds:
+      - go build -o {{.BUILD_DIR}}/{{.BINARY_NAME}}.exe ./cmd/server
+
+  run:
+    desc: Build and run the API
+    deps: [build]
+    cmds:
+      - "{{.BUILD_DIR}}/{{.BINARY_NAME}}.exe"
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - powershell -Command "Remove-Item -Recurse -Force {{.BUILD_DIR}} -ErrorAction SilentlyContinue"
+
+  tidy:
+    desc: Tidy go.mod / go.sum
+    cmds:
+      - go mod tidy
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
