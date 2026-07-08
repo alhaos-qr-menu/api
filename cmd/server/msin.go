@@ -49,7 +49,7 @@ func main() {
 	defer pool.Close()
 
 	// Init handlers
-	h := handlers.New(pool)
+	h := handlers.New(pool, []byte(cfg.JWTSecret))
 
 	// Init Gin router
 	gin.SetMode(gin.ReleaseMode)
@@ -66,7 +66,7 @@ func main() {
 	r.Use(cors.New(corsConfig))
 
 	// Setup all routes
-	router.SetupAllRoutes(r, h)
+	router.Setup(r, h, []byte(cfg.JWTSecret))
 
 	slog.Info("server starting", "port", cfg.Port, "env", os.Getenv("ENV"))
 

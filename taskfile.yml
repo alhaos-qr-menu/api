@@ -30,3 +30,8 @@ tasks:
     desc: Run tests
     cmds:
       - go test ./...
+
+  database:
+    desc: open database
+    cmds:
+      - psql postgres://qr_menu_owner:6wKkCaF3Td37he@alhaos.ru:5432/qr_menu?sslmode=disable

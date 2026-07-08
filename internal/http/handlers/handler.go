@@ -1,6 +1,8 @@
 package handlers
 
-import "github.com/jackc/pgx/v5/pgxpool"
+import (
+	"github.com/jackc/pgx/v5/pgxpool"
+)
 
 type Handler struct {
 	Health *HealthHandler
@@ -8,8 +10,9 @@ type Handler struct {
 	// Menu   *MenuHandler
 }
 
-func New(db *pgxpool.Pool /*, другие зависимости */) *Handler {
+func New(pool *pgxpool.Pool, jwtSecret []byte) *Handler {
 	return &Handler{
-		Health: NewHealthHandler(db),
+		Health: NewHealthHandler(pool),
+		// Auth:   NewAuthHandler(pool, jwtSecret),
 	}
 }

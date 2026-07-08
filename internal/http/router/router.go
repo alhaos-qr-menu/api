@@ -1,19 +1,21 @@
 package router
 
 import (
+	"github.com/alhaos-qr-menu/api/internal/auth"
 	"github.com/alhaos-qr-menu/api/internal/http/handlers"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupAllRoutes(router *gin.Engine, h *handlers.Handler) {
+func Setup(r *gin.Engine, h *handlers.Handler, jwtSecret []byte) {
+	api := r.Group("/api")
 
-	api := router.Group("/api")
+	// Public routes
+	api.GET("/health", h.Health.Health)
+
+	// Protected routes
+	protected := api.Group("/protected")
+	protected.Use(auth.RequireAuth(jwtSecret))
 	{
-		// Public routes
-		api.GET("/health", h.Health.Health)
+		protected.GET("/me", h.ProtectedExample)
 	}
-
-	// Protected routes later
-	// api.Use(auth.RequireAuth(...))
-	// v1 := api.Group("/v1")
 }
