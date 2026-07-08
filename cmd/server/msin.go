@@ -9,10 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/alhaos-qr-menu/api/internal/config"
-	"github.com/alhaos-qr-menu/api/internal/db"
-	"github.com/alhaos-qr-menu/api/internal/handlers"
+	"github.com/alhaos-qr-menu/api/internal/database"
+	"github.com/alhaos-qr-menu/api/internal/http/handlers"
+	"github.com/alhaos-qr-menu/api/internal/http/router"
 	"github.com/alhaos-qr-menu/api/internal/logging"
-	"github.com/alhaos-qr-menu/api/internal/router"
 )
 
 func main() {
@@ -40,7 +40,8 @@ func main() {
 	ctx := context.Background()
 
 	// Init database
-	pool, err := db.New(ctx, cfg.DatabaseURL)
+	pool, err := database.New(ctx, cfg.DatabaseURL)
+
 	if err != nil {
 		slog.Error("failed to connect to database", "error", err)
 		os.Exit(1)
