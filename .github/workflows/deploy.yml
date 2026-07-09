@@ -60,5 +60,5 @@ jobs:
             sudo /usr/bin/chown qr-menu-api:qr-menu-api /opt/qr-menu/api/api
             sudo /usr/bin/chmod +x /opt/qr-menu/api/api
             sudo /usr/bin/systemctl restart qr-menu-api
-            sudo /usr/bin/systemctl status qr-menu-api --no-pager
+            sudo /usr/bin/systemctl status qr-menu-api
           '
