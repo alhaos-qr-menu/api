@@ -10,6 +10,15 @@ tasks:
     cmds:
       - go build -o {{.BUILD_DIR}}/{{.BINARY_NAME}}.exe ./cmd/server
 
+  buildlinux:
+    desc: Build the API binary into ./build for linux os
+    cmds:
+      - $env:GOOS="linux"
+      - $env:GOARCH="amd64"
+      - $env:CGO_ENABLED="0"
+      - go build -o {{.BUILD_DIR}}/{{.BINARY_NAME}} ./cmd/server
+      - Remove-Item Env:\GOOS, Env:\GOARCH, Env:\CGO_ENABLED
+
   run:
     desc: Build and run the API
     deps: [build]

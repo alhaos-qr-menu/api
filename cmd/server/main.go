@@ -68,7 +68,7 @@ func main() {
 	// Setup all routes
 	router.Setup(r, h, []byte(cfg.JWTSecret))
 
-	slog.Info("server starting", "port", cfg.Port, "env", os.Getenv("ENV"))
+	slog.Info("server starting", "port", cfg.Port, "env", cfg.Env)
 
 	if err := r.Run(":" + cfg.Port); err != nil {
 		slog.Error("server failed to start", "error", err)

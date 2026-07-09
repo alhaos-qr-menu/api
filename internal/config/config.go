@@ -13,6 +13,7 @@ import (
 // are provided by systemd via EnvironmentFile=, no .env file is present.
 type Config struct {
 	Port            string        `env:"PORT" env-default:"8080"`
+	Env             string        `env:"ENV" env-default:"development"`
 	DatabaseURL     string        `env:"DATABASE_URL" env-required:"true"`
 	JWTSecret       string        `env:"JWT_SECRET" env-required:"true"`
 	AllowedOrigin   string        `env:"ALLOWED_ORIGIN" env-default:"http://localhost:5173"`
