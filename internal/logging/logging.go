@@ -17,9 +17,9 @@ type Config struct {
 	Compress   bool
 }
 
-// New creates a JSON slog.Logger that writes to a rotating log file.
-// lumberjack takes care of creating the target directory, rotating by
-// size, and pruning old/compressed backups.
+// New creates a JSON slog.Logger that writes to both stdout (for local
+// development) and a rotating log file. lumberjack takes care of creating
+// the target directory, rotating by size, and pruning old/compressed backups.
 func New(cfg Config) *slog.Logger {
 	rotator := &lumberjack.Logger{
 		Filename:   cfg.Path,
