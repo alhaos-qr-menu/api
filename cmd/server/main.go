@@ -49,7 +49,7 @@ func main() {
 	defer pool.Close()
 
 	// Init handlers
-	h := handlers.New(pool, []byte(cfg.JWTSecret))
+	h := handlers.New(pool, cfg)
 
 	// Init Gin router
 	gin.SetMode(gin.ReleaseMode)

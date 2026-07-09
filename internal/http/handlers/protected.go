@@ -8,6 +8,9 @@ import (
 	"github.com/alhaos-qr-menu/api/internal/auth"
 )
 
+type ProtectedExample struct {
+}
+
 func (h *Handler) ProtectedExample(c *gin.Context) {
 	userID, exists := auth.UserIDFromContext(c)
 	if !exists {
